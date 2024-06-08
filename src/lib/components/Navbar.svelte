@@ -9,7 +9,7 @@
     <a href="/" class="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-zinc-500">PocketCharge</a>
   </div>
   <div class="flex items-center space-x-2">
-    <Button href="/login">Login</Button>
-    <Button href="/signup">Sign up</Button>
+    <Button href="/auth/login">Login</Button>
+    <Button href="/auth/signup">Sign up</Button>
   </div>
 </nav>
