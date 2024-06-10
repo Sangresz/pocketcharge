@@ -1,5 +1,5 @@
 <script>
-  import '../app.css';
+	import '../app.css';
 	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
@@ -26,4 +26,6 @@
 	});
 </script>
 
-{@render children()}
+<div class="mx-16">
+	{@render children()}
+</div>
