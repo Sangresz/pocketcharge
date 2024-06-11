@@ -1,10 +1,11 @@
 <script>
 	import '../app.css';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	const { data, children } = $props();
-	let { session, supabase } = $derived(data);
+	let { session, supabase, user } = $derived(data);
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
@@ -27,5 +28,6 @@
 </script>
 
 <div class="mx-16">
+	<Navbar {user} />
 	{@render children()}
 </div>
