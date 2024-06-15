@@ -1,8 +1,8 @@
 <script lang="ts">
-	import logo from '$lib/assets/pocket_charge_logo.png';
+	import logo from '$lib/assets/logo.svg';
 </script>
 
-<div class="flex items-center">
+<div class="flex items-center space-x-2">
 	<img class="w-16 h-16" src={logo} alt="pocketcharge logo" />
 	<a
 		href="/"
