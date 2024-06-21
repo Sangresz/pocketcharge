@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals: { supabase } }) => {
-	const { data: countries } = await supabase.from('countries').select('name');
-	return { countries: countries ?? [] };
+	const { data: charges } = await supabase.from('charges').select('title,amount,is_expense');
+
+	return { charges: charges ?? [] };
 };

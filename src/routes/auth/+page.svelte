@@ -1,5 +1,8 @@
 <script lang="ts">
   import Button from "$lib/components/ui/button/button.svelte";
+
+  const { data } = $props();
+  console.log("Errors: " + data.error);
 </script>
 
 <div class="flex items-center justify-center">
