@@ -5,13 +5,9 @@
 	const { user } = $props();
 </script>
 
+{#if !user}
 <nav class="flex items-center justify-between py-4">
 	<Logo />
-	<div class="flex items-center space-x-2">
-		{#if user}
-			<Button href="/auth/logout">Logout</Button>
-		{:else}
-			<Button href="/auth/">Login</Button>
-		{/if}
-	</div>
+	<Button href="/auth/">Login</Button>
 </nav>
+{/if}
