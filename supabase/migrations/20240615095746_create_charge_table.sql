@@ -1,7 +1,7 @@
 create table "public"."charges" (
     "id" uuid not null default gen_random_uuid(),
     "title" varchar not null,
-    "price" real not null,
+    "amount" real not null,
     "is_expense" boolean not null default true,
     "user_id" uuid not null,
     "created_at" timestamp with time zone not null default now()
