@@ -1,7 +1,7 @@
-import type { LayoutServerLoad } from './$types';
+import { client } from '$lib/pocketbase';
 
-export const load: LayoutServerLoad = async ({ locals: { session } }) => {
-	return {
-		session
-	};
-};
+const records = await client.collection('users').getFullList({
+	sort: '-created'
+});
+
+console.log('Records ', records);
