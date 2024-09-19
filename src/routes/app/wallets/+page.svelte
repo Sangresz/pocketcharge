@@ -1,14 +1,8 @@
 <script lang="ts">
   import * as icons from '$lib/assets/icons/index'
+  import type { Wallet } from '$lib/types'
 
   const { data } = $props();
-
-  interface Wallet {
-    name: string;
-    icon: keyof typeof icons;
-    currency: string;
-    balance: number;
-  }
 
   let wallets: Wallet[] = data.wallets;
 </script>
