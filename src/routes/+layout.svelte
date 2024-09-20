@@ -8,5 +8,7 @@
 <div class="mx-4 lg:mx-16 mt-4">
 	<Navbar user={data.user} />
 	{@render children()}
-	<NavbarMobile />
+	{#if data.user}
+		<NavbarMobile />
+	{/if}
 </div>
