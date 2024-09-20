@@ -8,7 +8,7 @@
 
 <div class="flex items-center flex-col mt-12">
 	<form method="POST" class="p-12 w-96 bg-zinc-100 flex flex-col space-y-6">
-		<h2 class="text-3xl">Sign Up</h2>
+		<h2 class="text-3xl">Log in</h2>
 		<div class="w-full max-w-lg flex flex-col space-y-3">
 			<Label for="email">Email</Label>
 			<Input id="email" name="email" type="email" autocomplete="email" />
@@ -20,6 +20,6 @@
 		{#if form?.error}
 			<p class="text-red-500">{form.error}</p>
 		{/if}
-		<Button type="submit">Sign up</Button>
+		<Button type="submit">Log in</Button>
 	</form>
 </div>
