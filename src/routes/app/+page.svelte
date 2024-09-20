@@ -7,7 +7,7 @@
 	let charges = data.charges;
 </script>
 
-{#snippet wallet(name, amount, IconComponent)}
+{#snippet wallet(name: string, amount: string, IconComponent: ConstructorOfATypedSvelteComponent)}
 	<div id="wallet" class="flex items-center space-x-2 border border-slate-600 p-2 rounded-sm">
 		<IconComponent class="w-6 h-6" />
 		<div class="flex flex-col w-16">
