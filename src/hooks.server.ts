@@ -1,4 +1,5 @@
 import PocketBase from 'pocketbase';
+import { redirect } from '@sveltejs/kit';
 
 export const handle = async ({event, resolve}) => {
   event.locals.pb = new PocketBase("http://127.0.0.1:8090/");
@@ -13,6 +14,10 @@ export const handle = async ({event, resolve}) => {
   const response = await resolve(event);
 
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie());
+
+  if (event.url.pathname === '/') {
+    return redirect(303, '/app');
+  }
 
   return response;
 };

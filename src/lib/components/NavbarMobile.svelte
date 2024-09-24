@@ -8,7 +8,7 @@
     <Wallet class="w-8 h-8" />
   </a>
   <a href="/app" class="border rounded-full p-2 border-slate-300 flex flex-col items-center">
-    <span class="text-sm">Add</span>
+    <span class="text-sm">Home</span>
     <Plus class="h-8 w-8" />
   </a>
 </div>
