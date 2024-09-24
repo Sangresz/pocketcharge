@@ -1,6 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import RecordModel from 'pocketbase';
+import type RecordModel from 'pocketbase';
 
 declare global {
     namespace App {
