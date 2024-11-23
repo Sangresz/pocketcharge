@@ -3,7 +3,7 @@
 	import Logo from '$lib/components/Logo.svelte';
 	import Button from './ui/button/button.svelte';
 
-	const { user } = $props<{user: RecordModel}>();
+	const { user } = $props<{user: RecordModel | undefined}>();
 </script>
 
 <nav class="flex items-center justify-between py-4">
