@@ -15,8 +15,14 @@ export const handle = async ({event, resolve}) => {
 
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie());
 
-  if (event.url.pathname === '/') {
-    return redirect(303, '/app');
+  if (event.locals.pb.authStore.isValid) {
+    if (event.url.pathname === '/' || event.url.pathname.includes("/auth")) {
+      return redirect(303, '/app');
+    }
+  } else {
+    if (event.url.pathname.includes("/app")) {
+      return redirect(303, '/auth/login');
+    }
   }
 
   return response;

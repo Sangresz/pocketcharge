@@ -8,6 +8,7 @@ export const actions: Actions = {
 
     try {
       await locals.pb.collection('users').authWithPassword(body.email, body.password);
+      return redirect(303, '/app');
     } catch (error) {
       if (error instanceof ClientResponseError) {
         return {error: error.response.message};
@@ -16,6 +17,5 @@ export const actions: Actions = {
         return redirect(303, '/auth/error');
       }
     }
-    return redirect(303, '/app');
 	}
 };
