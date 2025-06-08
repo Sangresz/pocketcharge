@@ -30,73 +30,85 @@
 </script>
 
 {#snippet wallet_snippet(name: string, amount: number, icon: string, currency: string)}
-	<div id="wallet" class="flex items-center space-x-3 bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md">
+	<div
+		id="wallet"
+		class="flex cursor-pointer items-center space-x-3 rounded-lg bg-white/5 p-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-4"
+	>
 		<img
 			src={Icons[icon as keyof typeof Icons]}
 			alt={name}
-			class="w-6 h-6 sm:w-8 sm:h-8 text-primary"
+			class="text-primary h-6 w-6 sm:h-8 sm:w-8"
 		/>
 		<div class="flex flex-col">
-			<div class="text-xs sm:text-sm text-muted-foreground">
+			<div class="text-muted-foreground text-xs sm:text-sm">
 				{name}
 			</div>
-			<div class="font-bold text-base sm:text-xl">
+			<div class="text-base font-bold sm:text-xl">
 				{formatCurrency(amount, currency)}
 			</div>
 		</div>
 	</div>
 {/snippet}
 
-<div class="flex flex-col space-y-4 sm:space-y-6 w-full px-2 sm:px-4 mx-auto" style="max-width: min(100%, 1024px);">
-	<h1 class="text-xl sm:text-2xl font-bold">My Wallets</h1>
-	
-	<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+<div
+	class="mx-auto flex w-full flex-col space-y-4 px-2 sm:space-y-6 sm:px-4"
+	style="max-width: min(100%, 1024px);"
+>
+	<h1 class="text-xl font-bold sm:text-2xl">My Wallets</h1>
+
+	<div class="grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
 		{#each wallets as wallet}
 			{@render wallet_snippet(wallet.name, wallet.balance, wallet.icon, wallet.currency)}
 		{/each}
-		<Button 
-			variant="outline" 
-			size="lg" 
-			class="h-full min-h-[80px] sm:min-h-[100px] col-span-2 md:col-span-1 hover:bg-primary hover:text-primary-foreground transition-all duration-200"
-			onclick={() => isAddWalletModalOpen = true}
+		<Button
+			variant="outline"
+			size="lg"
+			class="hover:bg-primary hover:text-primary-foreground col-span-2 h-full min-h-[80px] transition-all duration-200 sm:min-h-[100px] md:col-span-1"
+			onclick={() => (isAddWalletModalOpen = true)}
 		>
-			<Plus class="h-5 w-5 sm:h-6 sm:w-6 mr-2" />
+			<Plus class="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
 			<span class="text-sm sm:text-base">Add Wallet</span>
 		</Button>
 	</div>
 
-	<div class="w-full bg-white/5 backdrop-blur-sm rounded-lg p-4 sm:p-6 shadow-sm border border-slate-700">
-		<h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">May 2024 Summary</h2>
-		<div class="flex sm:flex-row items-center justify-between sm:space-y-0">
+	<div
+		class="w-full rounded-lg border border-slate-700 bg-white/5 p-4 shadow-sm backdrop-blur-sm sm:p-6"
+	>
+		<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">May 2024 Summary</h2>
+		<div class="flex items-center justify-between sm:flex-row sm:space-y-0">
 			<div class="flex items-center space-x-2 text-green-500">
-				<TrendingUp class="w-4 h-4 sm:w-5 sm:h-5" />
-				<span class="text-base sm:text-xl font-medium">+{formatCurrency(500)}</span>
+				<TrendingUp class="h-4 w-4 sm:h-5 sm:w-5" />
+				<span class="text-base font-medium sm:text-xl">+{formatCurrency(500)}</span>
 			</div>
 			<div class="flex items-center space-x-2 text-red-500">
-				<TrendingDown class="w-4 h-4 sm:w-5 sm:h-5" />
-				<span class="text-base sm:text-xl font-medium">-{formatCurrency(200)}</span>
+				<TrendingDown class="h-4 w-4 sm:h-5 sm:w-5" />
+				<span class="text-base font-medium sm:text-xl">-{formatCurrency(200)}</span>
 			</div>
 		</div>
 	</div>
 
-	<h2 class="text-lg sm:text-xl font-semibold mt-2 sm:mt-4">Recent Transactions</h2>
+	<h2 class="mt-2 text-lg font-semibold sm:mt-4 sm:text-xl">Recent Transactions</h2>
 	<div class="space-y-2 sm:space-y-3">
 		{#each charges as charge}
-			<div 
-				class="group rounded-lg overflow-hidden transition-all duration-200 hover:transform hover:translate-x-2"
+			<div
+				class="group overflow-hidden rounded-lg transition-all duration-200 hover:translate-x-2 hover:transform"
 				transition:slide|local
 			>
-				<div class={`${charge.is_expense ? "bg-red-500/10 hover:bg-red-500/20" : "bg-green-500/10 hover:bg-green-500/20"} px-3 sm:px-6 py-3 sm:py-4 transition-colors duration-200`}>
-					<div class="flex justify-between items-center">
+				<div
+					class={`${charge.is_expense ? 'bg-red-500/10 hover:bg-red-500/20' : 'bg-green-500/10 hover:bg-green-500/20'} px-3 py-3 transition-colors duration-200 sm:px-6 sm:py-4`}
+				>
+					<div class="flex items-center justify-between">
 						<div class="flex items-center space-x-2 sm:space-x-3">
 							{#if charge.is_expense}
-								<TrendingDown class="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+								<TrendingDown class="h-4 w-4 text-red-500 sm:h-5 sm:w-5" />
 							{:else}
-								<TrendingUp class="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
+								<TrendingUp class="h-4 w-4 text-green-500 sm:h-5 sm:w-5" />
 							{/if}
-							<span class="font-medium text-sm sm:text-base">{charge.name}</span>
+							<span class="text-sm font-medium sm:text-base">{charge.name}</span>
 						</div>
-						<div class={`text-base sm:text-xl font-semibold ${charge.is_expense ? "text-red-500" : "text-green-500"}`}>
+						<div
+							class={`text-base font-semibold sm:text-xl ${charge.is_expense ? 'text-red-500' : 'text-green-500'}`}
+						>
 							{charge.is_expense ? '-' : '+'}{formatCurrency(charge.amount)}
 						</div>
 					</div>
@@ -106,10 +118,6 @@
 	</div>
 </div>
 
-<Modal
-	isOpen={isAddWalletModalOpen}
-	title="Add New Wallet"
-	onClose={closeAddWalletModal}
->
+<Modal isOpen={isAddWalletModalOpen} title="Add New Wallet" onClose={closeAddWalletModal}>
 	<AddWalletForm onSuccess={closeAddWalletModal} />
 </Modal>

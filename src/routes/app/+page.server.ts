@@ -1,47 +1,42 @@
-import type { PageServerLoad, Actions } from './$types';
-import { fail } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import { supabase } from '$lib/supabaseClient';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ locals: { pb } }) => {
+export const load: PageServerLoad = async () => {
 	const [charges, wallets] = await Promise.all([
-		pb.collection('charges').getList(1, 10, {
-			sort: '-created'
-		}),
-		pb.collection('wallets').getList(1, 50, {
-			sort: '-created'
-		})
+		supabase.from('charges').select('*').order('created_at').limit(10),
+		supabase.from('wallets').select('*').order('created_at').limit(50)
 	]);
 
-	return { 
-		charges: charges.items ?? [],
-		wallets: wallets.items ?? []
+	return {
+		charges: charges.data ?? [],
+		wallets: wallets.data ?? []
 	};
 };
 
 export const actions: Actions = {
-	createWallet: async ({ request, locals: { pb } }) => {
-		const data = await request.formData();
-		const name = data.get('name')?.toString();
-		const balance = data.get('balance')?.toString();
-		const icon = data.get('icon')?.toString();
-		const currency = data.get('currency')?.toString();
+	createWallet: async ({ request }) => {
+		const form_data = await request.formData();
+		const name = form_data.get('name')?.toString();
+		const balance = form_data.get('balance')?.toString();
+		const icon = form_data.get('icon')?.toString();
+		const currency = form_data.get('currency')?.toString();
 
 		if (!name || !balance) {
 			return fail(400, { error: 'Name and balance are required' });
 		}
 
-		try {
-			await pb.collection('wallets').create({
-				name,
-				icon,
-				currency,
-				balance: parseFloat(balance),
-				user_id: pb.authStore.model?.id
-			});
+		const { error } = await supabase.from('wallets').insert({
+			name,
+			icon,
+			currency,
+			balance: parseFloat(balance)
+		});
 
-			return { type: 'success' };
-		} catch (error) {
-			console.error('Failed to create wallet:', error);
+		if (error) {
 			return fail(500, { error: 'Failed to create wallet' });
 		}
+
+		return redirect(302, '/app');
 	}
 };

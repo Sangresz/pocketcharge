@@ -22,8 +22,6 @@
 		{ value: 'icon_visa', label: 'Visa' }
 	];
 
-	let {onSuccess} = $props();
-
 	let selectedCurrency = $state(CURRENCIES[0]);
 </script>
 
@@ -31,13 +29,6 @@
 	method="POST"
 	action="?/createWallet"
 	class="space-y-4"
-	use:enhance={() => {
-		return async ({ result }) => {
-			if (result.type === 'success') {
-				onSuccess();
-			}
-		};
-	}}
 >
 	<div class="space-y-2">
 		<label for="name" class="text-sm font-medium">Wallet Name</label>
