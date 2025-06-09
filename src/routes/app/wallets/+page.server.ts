@@ -1,7 +1,8 @@
+import { supabase } from '$lib/supabaseClient';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals: { pb } }) => {
-	const wallets = await pb.collection('wallets').getFullList({sort: "-balance"});
+export const load: PageServerLoad = async () => {
+	const wallets = await supabase.from('wallets').select("*").order("balance");
 
-	return { wallets: wallets ?? [] };
+	return { wallets: wallets.data ?? [] };
 };
