@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { enhance } from '$app/forms';
 
 	const CURRENCIES = [
 		{ value: '$', label: 'USD - US Dollar', symbol: '$' },

@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 };
 
 export const actions: Actions = {
-	createWallet: async ({ request, locals: { supabase } }) => {
+	createWallet: async ({ request, locals: { user, supabase } }) => {
 		const form_data = await request.formData();
 		const name = form_data.get('name')?.toString();
 		const balance = form_data.get('balance')?.toString();
@@ -29,7 +29,8 @@ export const actions: Actions = {
 			name,
 			icon,
 			currency,
-			balance: parseFloat(balance)
+			balance: parseFloat(balance),
+			user_id: user?.id
 		});
 
 		if (error) {
