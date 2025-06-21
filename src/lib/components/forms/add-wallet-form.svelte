@@ -57,7 +57,7 @@
 				id="icon"
 				name="icon"
 				required
-				class="w-full px-3 py-2 border border-border rounded-md bg-background"
+				class="w-full px-3 py-2 border border-border rounded-md bg-background cursor-pointer"
 			>
 				{#each ICONS as icon}
 					<option value={icon.value}>{icon.label}</option>
@@ -72,7 +72,7 @@
 			id="currency"
 			name="currency"
 			required
-			class="w-full px-3 py-2 border border-border rounded-md bg-background"
+			class="w-full px-3 py-2 border border-border rounded-md bg-background cursor-pointer"
 			bind:value={selectedCurrencyValue}
 		>
 			{#each CURRENCIES as currency}
