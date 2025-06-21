@@ -16,14 +16,14 @@
 		transition:fade={{ duration: 200 }}
 	>
 		<div
-			class="bg-background border border-border rounded-lg shadow-lg w-full max-w-lg"
+			class="bg-zinc-50 border border-border rounded-lg shadow-lg w-full max-w-lg"
 			transition:scale={{ duration: 200, start: 0.95 }}
 		>
 			<div class="flex justify-between items-center p-4 border-b border-border">
 				<h2 class="text-lg font-semibold">{title}</h2>
 				<button
 					onclick={onClose}
-					class="text-muted-foreground hover:text-foreground transition-colors"
+					class="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
 				>
 					<X class="w-5 h-5" />
 				</button>

@@ -61,7 +61,7 @@
 		<Button
 			variant="outline"
 			size="lg"
-			class="hover:bg-primary hover:text-primary-foreground col-span-2 h-full min-h-[80px] transition-all duration-200 sm:min-h-[100px] md:col-span-1"
+			class="hover:bg-primary hover:text-primary-foreground col-span-2 h-full min-h-[80px] transition-all duration-200 sm:min-h-[100px] md:col-span-1 cursor-pointer"
 			onclick={() => (isAddWalletModalOpen = true)}
 		>
 			<Plus class="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
