@@ -6,7 +6,7 @@
   import { onMount } from 'svelte'
 
   let { data, children } = $props()
-  let { session, supabase } = $derived(data)
+  let { user, session, supabase } = $derived(data)
 
 	onMount(() => {
     const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
@@ -20,9 +20,9 @@
 </script>
 
 <div class="mx-4 lg:mx-16 mt-4">
-	<Navbar user={data.user} />
+	<Navbar user={user} />
 	{@render children()}
-	{#if data.user}
+	{#if user}
 		<NavbarMobile />
 	{/if}
 </div>

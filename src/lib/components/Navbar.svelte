@@ -16,7 +16,7 @@
 		<a href="/"><Logo /></a>
 		<div class="flex items-center space-x-4">
 			<Button href="/auth/signup">Sign up</Button>
-			<Button href="/auth/login">Login</Button>
+			<Button href="/auth">Login</Button>
 		</div>
 	{/if}
 </nav>
