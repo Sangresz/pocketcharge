@@ -1,8 +1,7 @@
 import type { PageServerLoad } from './$types';
-import { supabase } from '$lib/supabaseClient';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 	const [charges, wallets] = await Promise.all([
 		supabase.from('charges').select('*').order('created_at').limit(10),
 		supabase.from('wallets').select('*').order('created_at').limit(50)
@@ -15,7 +14,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	createWallet: async ({ request }) => {
+	createWallet: async ({ request, locals: { supabase } }) => {
 		const form_data = await request.formData();
 		const name = form_data.get('name')?.toString();
 		const balance = form_data.get('balance')?.toString();
