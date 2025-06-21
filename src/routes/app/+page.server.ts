@@ -38,5 +38,27 @@ export const actions: Actions = {
 		}
 
 		return redirect(302, '/app');
+	},
+	updateWallet: async ({ request, locals: { supabase } }) => {
+		const walletId = new URL(request.url).searchParams.get('wallet_id');
+
+		const form_data = await request.formData();
+		const name = form_data.get('name')?.toString();
+		const balance = form_data.get('balance')?.toString();
+		const icon = form_data.get('icon')?.toString();
+		const currency = form_data.get('currency')?.toString();
+
+		const { error } = await supabase.from('wallets').update({
+			name,
+			icon,
+			currency,
+			balance: parseFloat(balance ?? '0'),
+		}).eq('id', walletId);
+
+		if (error) {
+			return fail(500, { error: 'Failed to update wallet' });
+		}
+
+		return redirect(302, '/app');
 	}
 };
