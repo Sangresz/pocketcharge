@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { enhance } from '$app/forms';
 	import * as Icons from '$lib/assets/icons';
 
 	const CURRENCIES = [
@@ -23,13 +22,17 @@
 		{ value: 'icon_visa', label: 'Visa' }
 	];
 
-	let selectedIconValue = $state(ICONS[0].value)
-	let selectedCurrencyValue = $state(CURRENCIES[0].value);
+	const { selectedWallet } = $props();
+
+	let selectedIconValue = $state(selectedWallet?.icon || ICONS[0].value)
+	let selectedCurrencyValue = $state(selectedWallet?.currency || CURRENCIES[0].value);
+
+	let action = $derived(selectedWallet ? `?/updateWallet&wallet_id=${selectedWallet.id}` : '/app/createWallet');
 </script>
 
 <form
 	method="POST"
-	action="?/createWallet"
+	action={action}
 	class="space-y-4"
 >
 	<div class="space-y-2">
@@ -38,6 +41,7 @@
 			type="text"
 			id="name"
 			name="name"
+			value={selectedWallet?.name}
 			required
 			class="w-full px-3 py-2 border border-border rounded-md bg-background"
 			placeholder="e.g., Cash, Bank, Credit Card"
@@ -94,11 +98,12 @@
 				min="0"
 				class="w-full pl-7 pr-3 py-2 border border-border rounded-md bg-background"
 				placeholder="0.00"
+				value={selectedWallet?.balance}
 			/>
 		</div>
 	</div>
 
 	<div class="pt-4">
-		<Button type="submit" class="w-full">Create Wallet</Button>
+		<Button type="submit" class="w-full">{selectedWallet ? 'Update Wallet' : 'Create Wallet'}</Button>
 	</div>
 </form>
