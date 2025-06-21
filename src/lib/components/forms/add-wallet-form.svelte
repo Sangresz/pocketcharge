@@ -1,10 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { enhance } from '$app/forms';
+	import * as Icons from '$lib/assets/icons';
 
 	const CURRENCIES = [
-		{ value: '$', label: 'USD - US Dollar', symbol: '$' },
-		{ value: '£', label: 'GBP - British Pound', symbol: '£' },
-		{ value: '€', label: 'EUR - Euro', symbol: '€' }
+		{ value: '$', label: 'USD - US Dollar'},
+		{ value: '£', label: 'GBP - British Pound'},
+		{ value: '€', label: 'EUR - Euro' }
 	];
 
 	const ICONS = [
@@ -21,7 +23,8 @@
 		{ value: 'icon_visa', label: 'Visa' }
 	];
 
-	let selectedCurrency = $state(CURRENCIES[0]);
+	let selectedIconValue = $state(ICONS[0].value)
+	let selectedCurrencyValue = $state(CURRENCIES[0].value);
 </script>
 
 <form
@@ -43,16 +46,24 @@
 
 	<div class="space-y-2">
 		<label for="icon" class="text-sm font-medium">Icon</label>
-		<select
-			id="icon"
-			name="icon"
-			required
-			class="w-full px-3 py-2 border border-border rounded-md bg-background"
-		>
-			{#each ICONS as icon}
-				<option value={icon.value}>{icon.label}</option>
-			{/each}
-		</select>
+		<div class="flex space-x-2 items-center">
+			<img
+				src={Icons[selectedIconValue as keyof typeof Icons]}
+				alt={selectedIconValue}
+				class="w-6 h-6 sm:w-8 sm:h-8 text-primary"
+			/>
+			<select
+				bind:value={selectedIconValue}
+				id="icon"
+				name="icon"
+				required
+				class="w-full px-3 py-2 border border-border rounded-md bg-background"
+			>
+				{#each ICONS as icon}
+					<option value={icon.value}>{icon.label}</option>
+				{/each}
+			</select>
+		</div>
 	</div>
 
 	<div class="space-y-2">
@@ -62,7 +73,7 @@
 			name="currency"
 			required
 			class="w-full px-3 py-2 border border-border rounded-md bg-background"
-			bind:value={selectedCurrency.value}
+			bind:value={selectedCurrencyValue}
 		>
 			{#each CURRENCIES as currency}
 				<option value={currency.value}>{currency.label}</option>
@@ -71,9 +82,9 @@
 	</div>
 
 	<div class="space-y-2">
-		<label for="balance" class="text-sm font-medium">Initial Balance</label>
+		<label for="balance" class="text-sm font-medium">Balance</label>
 		<div class="relative">
-			<span class="absolute left-3 top-2 text-muted-foreground">{selectedCurrency.symbol}</span>
+			<span class="absolute left-3 top-2 text-muted-foreground">{selectedCurrencyValue}</span>
 			<input
 				type="number"
 				id="balance"
