@@ -1,6 +1,4 @@
 <script lang="ts">
-	const { data } = $props();
-
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Plus, TrendingUp, TrendingDown } from 'lucide-svelte';
 	import { slide } from 'svelte/transition';
@@ -8,9 +6,9 @@
 	import AddWalletForm from '$lib/components/forms/add-wallet-form.svelte';
 	import * as Icons from '$lib/assets/icons';
 
-	let charges = data.charges;
-	let wallets = data.wallets;
 	let isAddWalletModalOpen = $state(false);
+	let { data } = $props();
+	let { charges, wallets } = $derived(data);
 
 	function closeAddWalletModal() {
 		isAddWalletModalOpen = false;
@@ -119,5 +117,5 @@
 </div>
 
 <Modal isOpen={isAddWalletModalOpen} title="Add New Wallet" onClose={closeAddWalletModal}>
-	<AddWalletForm onSuccess={closeAddWalletModal} />
+	<AddWalletForm />
 </Modal>
