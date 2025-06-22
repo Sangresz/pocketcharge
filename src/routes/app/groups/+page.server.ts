@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
@@ -24,13 +24,7 @@ export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession 
 };
 
 export const actions: Actions = {
-	default: async ({ request, locals: { supabase, safeGetSession } }) => {
-		const { session } = await safeGetSession();
-
-		if (!session) {
-			return fail(401, { error: 'Unauthorized' });
-		}
-
+	createGroup: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const name = formData.get('name') as string;
 
@@ -38,21 +32,35 @@ export const actions: Actions = {
 			return fail(400, { error: 'Group name is required' });
 		}
 
-		const { data: group, error } = await supabase
+		const { error } = await supabase
 			.from('groups')
 			.insert([
 				{
 					name: name.trim(),
 				}
 			])
-			.select()
-			.single();
 
 		if (error) {
 			console.error('Error creating group:', error);
 			return fail(500, { error: 'Failed to create group' });
 		}
 
-		return { success: true, group };
+		return redirect(302, '/app/groups');
+	},
+	updateGroup: async ({ request, locals: { supabase } }) => {
+		const groupId = new URL(request.url).searchParams.get('group_id');
+
+		const form_data = await request.formData();
+		const name = form_data.get('name')?.toString();
+
+		const { error } = await supabase.from('groups').update({
+			name,
+		}).eq('id', groupId);
+
+		if (error) {
+			return fail(500, { error: 'Failed to update group' });
+		}
+
+		return redirect(302, '/app/groups');
 	}
 };
