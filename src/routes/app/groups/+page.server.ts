@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 };
 
 export const actions: Actions = {
-	createGroup: async ({ request, locals: { supabase } }) => {
+	createGroup: async ({ request, locals: { user, supabase } }) => {
 		const formData = await request.formData();
 		const name = formData.get('name') as string;
 
@@ -26,16 +26,32 @@ export const actions: Actions = {
 			return fail(400, { error: 'Group name is required' });
 		}
 
-		const { error } = await supabase
+		let resultGroup = await supabase
 			.from('groups')
 			.insert([
 				{
 					name: name.trim(),
 				}
 			])
+			.select()
 
-		if (error) {
-			console.error('Error creating group:', error);
+		if (resultGroup.error || !resultGroup.data) {
+			console.error('Error creating group:', resultGroup.error);
+			return fail(500, { error: 'Failed to create group' });
+		}
+
+		let resultMemberGroup = await supabase
+			.from('member_groups')
+			.insert([
+				{
+					user_id: user?.id,
+					group_id: resultGroup.data[0].id,
+					name: user?.user_metadata.firstName,
+				}
+			])
+
+		if (resultMemberGroup.error) {
+			console.error('Error creating member group:', resultMemberGroup.error);
 			return fail(500, { error: 'Failed to create group' });
 		}
 
@@ -45,7 +61,7 @@ export const actions: Actions = {
 		const groupId = new URL(request.url).searchParams.get('group_id');
 
 		const form_data = await request.formData();
-		const name = form_data.get('name')?.toString();
+		const name = form_data.get('name') as string;
 
 		const { error } = await supabase.from('groups').update({
 			name,
