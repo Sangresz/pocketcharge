@@ -1,13 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
-	const { session } = await safeGetSession();
-
-	if (!session) {
-		return { groups: [] };
-	}
-
+export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 	const { data: groups, error } = await supabase
 		.from('groups')
 		.select('*')
