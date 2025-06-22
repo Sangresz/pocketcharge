@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Logo from '$lib/components/Logo.svelte';
-	import Button from './ui/button/button.svelte';
 
 	const { user } = $props();
 </script>
@@ -10,13 +9,13 @@
 		<a href="/app"><Logo /></a>
 		<div class="flex items-center space-x-4">
 			<span>{user.email}</span>
-			<Button href="/auth/logout">Logout</Button>
+			<a href="/auth/logout">Logout</a>
 		</div>
 	{:else}
 		<a href="/"><Logo /></a>
 		<div class="flex items-center space-x-4">
-			<Button href="/auth/signup">Sign up</Button>
-			<Button href="/auth">Login</Button>
+			<a href="/auth/signup">Sign up</a>
+			<a href="/auth">Login</a>
 		</div>
 	{/if}
 </nav>
