@@ -46,11 +46,11 @@
 	<Modal isOpen={isModalOpen} title={selectedGroup ? "Update Group" : "Create New Group"} onClose={closeModal}>
 		<form method="POST" action={selectedGroup ? `?/updateGroup&group_id=${selectedGroup.id}` : "?/createGroup"}>
 			<div class="grid gap-4 py-4">
-				<div class="grid grid-cols-4 items-center gap-4">
+				<div class="space-y-2">
 					<Label for="name" class="text-right">Name</Label>
 					<Input id="name" name="name" value={selectedGroup?.name} class="col-span-3" required />
 				</div>
-				<Button type="submit">{selectedGroup ? "Update Group" : "Create Group"}</Button>
+				<Button type="submit">{selectedGroup ? "Update" : "Create"}</Button>
 			</div>
 		</form>
 	</Modal>

@@ -104,6 +104,6 @@
 	</div>
 
 	<div class="pt-4">
-		<Button type="submit" class="w-full">{selectedWallet ? 'Update Wallet' : 'Create Wallet'}</Button>
+		<Button type="submit" class="w-full">{selectedWallet ? 'Update' : 'Create'}</Button>
 	</div>
 </form>
