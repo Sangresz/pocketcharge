@@ -16,10 +16,10 @@ export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 export const actions: Actions = {
 	createWallet: async ({ request, locals: { user, supabase } }) => {
 		const form_data = await request.formData();
-		const name = form_data.get('name')?.toString();
-		const balance = form_data.get('balance')?.toString();
-		const icon = form_data.get('icon')?.toString();
-		const currency = form_data.get('currency')?.toString();
+		const name = form_data.get('name') as string;
+		const balance = form_data.get('balance') as string;
+		const icon = form_data.get('icon') as string;
+		const currency = form_data.get('currency') as string;
 
 		if (!name || !balance) {
 			return fail(400, { error: 'Name and balance are required' });
@@ -43,10 +43,10 @@ export const actions: Actions = {
 		const walletId = new URL(request.url).searchParams.get('wallet_id');
 
 		const form_data = await request.formData();
-		const name = form_data.get('name')?.toString();
-		const balance = form_data.get('balance')?.toString();
-		const icon = form_data.get('icon')?.toString();
-		const currency = form_data.get('currency')?.toString();
+		const name = form_data.get('name') as string;
+		const balance = form_data.get('balance') as string;
+		const icon = form_data.get('icon') as string;
+		const currency = form_data.get('currency') as string;
 
 		const { error } = await supabase.from('wallets').update({
 			name,
