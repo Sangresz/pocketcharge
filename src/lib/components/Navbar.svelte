@@ -1,13 +1,21 @@
 <script lang="ts">
 	import Logo from '$lib/components/Logo.svelte';
-	import Button from './ui/button/button.svelte';
 
 	const { user } = $props();
 </script>
 
-{#if !user}
 <nav class="flex items-center justify-between py-4">
-	<Logo />
-	<Button href="/auth/">Login</Button>
+	{#if user}
+		<a href="/app"><Logo /></a>
+		<div class="flex items-center space-x-4">
+			<span>{user.email}</span>
+			<a href="/auth/logout">Logout</a>
+		</div>
+	{:else}
+		<a href="/"><Logo /></a>
+		<div class="flex items-center space-x-4">
+			<a href="/auth/signup">Sign up</a>
+			<a href="/auth">Login</a>
+		</div>
+	{/if}
 </nav>
-{/if}
