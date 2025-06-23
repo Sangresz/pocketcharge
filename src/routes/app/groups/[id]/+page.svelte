@@ -14,6 +14,7 @@
 
 	let isModalOpen = $state(false);
 	let isInviteIconShown = $state(false);
+	let guests = $state(['']);
 
 	function openModal() {
 		isModalOpen = true;
@@ -23,19 +24,12 @@
 		isModalOpen = false;
 	}
 
-	let guests = $state(['']);
-
 	function addGuest() {
 		guests = [...guests, ''];
 	}
 
 	function removeGuest(index: number) {
 		guests = guests.filter((_, i) => i !== index);
-	}
-
-	function handleSubmit(event: Event) {
-		event.preventDefault();
-		alert(`Invitati: ${guests.join(', ')}`);
 	}
 
 	function handleCopy() {
@@ -71,7 +65,7 @@
 </div>
 
 <Modal title="Invite people to the group" onClose={closeModal} isOpen={isModalOpen}>
-	<form onsubmit={handleSubmit} class="flex flex-col items-start">
+	<form method="POST" action={`?/addPeople&group_id=${group.id}`} class="flex flex-col items-start">
 		<div class="flex w-full flex-col space-y-2">
 			{#each guests as _, index}
 				<div class="flex items-center">
