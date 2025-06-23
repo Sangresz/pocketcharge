@@ -33,7 +33,7 @@
 	}
 
 	function handleCopy() {
-		navigator.clipboard.writeText(window.location.href + '/join');
+		navigator.clipboard.writeText(window.location.href + '/join?group_name=' + group.name);
 		isInviteIconShown = true;
 		setTimeout(() => {
 			isInviteIconShown = false;

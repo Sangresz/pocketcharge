@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { redirect, type Actions } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params, locals: { supabase, user } }) => {
+export const load: PageServerLoad = async ({ params, locals: { supabase } }) => {
     let groupId = params.id;
 
     const { data: group, error } = await supabase
