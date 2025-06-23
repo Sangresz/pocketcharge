@@ -8,7 +8,6 @@
 	{#if user}
 		<a href="/app"><Logo /></a>
 		<div class="flex items-center space-x-4">
-			<span>{user.email}</span>
 			<a href="/auth/logout">Logout</a>
 		</div>
 	{:else}
