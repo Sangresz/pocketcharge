@@ -1,12 +1,18 @@
-<script>
+<script lang="ts">
 	import Modal from '$lib/components/ui/modal/modal.svelte';
-	import { getState } from '$lib/chargesModalState.svelte';
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Tabs from '$lib/components/ui/tabs/index.js';
+	import * as Icons from '$lib/assets/icons';
+	import { getState } from '$lib/chargesModalState.svelte';
 
-	let { children } = $props();
+	let { data, children } = $props();
+
+	const { wallets } = $derived(data);
+	let selectedWalletId: string | null = $state(null);
+	const selectedWallet = $derived(wallets.find((wallet) => wallet.id === selectedWalletId));
+
 	const manageState = getState();
 </script>
 
@@ -37,6 +43,27 @@
 				<div class="flex items-center space-x-2">
 					<input type="checkbox" name="is_expense" checked class="h-5 w-5 self-start" />
 					<Label for="is_expanse">Is expense</Label>
+				</div>
+				<div class="space-y-2">
+					<label for="wallet" class="text-sm font-medium">From wallet</label>
+					<div class="flex items-center space-x-2">
+						{#if selectedWallet}
+							<img
+								src={Icons[selectedWallet.icon as keyof typeof Icons]}
+								alt={selectedWallet.icon}
+								class="text-primary h-6 w-6 sm:h-8 sm:w-8"
+							/>
+						{/if}
+						<select
+							name="wallet"
+							bind:value={selectedWalletId}
+							class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
+						>
+							{#each [{ name: 'No wallet', id: null }, ...wallets] as wallet}
+								<option value={wallet.id}>{wallet.name}</option>
+							{/each}
+						</select>
+					</div>
 				</div>
 				<Button variant="outline" type="submit" class="self-end">Create</Button>
 			</form>
