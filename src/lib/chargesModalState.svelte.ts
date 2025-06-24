@@ -1,8 +1,11 @@
+import type { Tables } from "./database.types";
+
 interface State {
     isModalOpen: boolean;
+    selectedCharge: Tables<'charges'> | null;
 }
 
-let state = $state({ isModalOpen: false });
+let state: State = $state({ isModalOpen: false, selectedCharge: null });
 
 export function getState() {
     function updateState(newState: State) {
@@ -10,7 +13,7 @@ export function getState() {
     }
 
     function toggleModal() {
-        updateState({ isModalOpen: !state.isModalOpen });
+        updateState({ ...state, isModalOpen: !state.isModalOpen });
     }
 
     return {
