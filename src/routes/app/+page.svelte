@@ -6,14 +6,13 @@
 	import AddWalletForm from '$lib/components/forms/add-wallet-form.svelte';
 	import * as Icons from '$lib/assets/icons';
 	import type { Tables } from '$lib/database.types';
-	import { getState } from '$lib/chargesModalState.svelte';
+	import { updateState } from '$lib/chargesModalState.svelte';
 
 	let { data } = $props();
 	let { charges, wallets } = $derived(data);
 
 	let isAddWalletModalOpen = $state(false);
 	let selectedWallet = $state<Tables<'wallets'> | undefined>(undefined);
-	const manageState = getState();
 
 	function closeAddWalletModal() {
 		isAddWalletModalOpen = false;
@@ -88,15 +87,10 @@
 </div>
 
 <h2 class="mt-2 text-lg font-semibold sm:mt-4 sm:text-xl">Recent Transactions</h2>
-<div class="flex flex-col space-y-2 sm:space-y-3">
+<div class="mb-8 flex w-full flex-col space-y-2 sm:space-y-3">
 	{#each charges as charge}
 		<button
-			onclick={() => {
-				manageState.updateState({
-					selectedCharge: charge,
-					isModalOpen: true
-				});
-			}}
+			onclick={() => updateState({ isModalOpen: true, selectedCharge: charge })}
 			class="group cursor-pointer overflow-hidden rounded-lg transition-all duration-200 hover:translate-x-2 hover:transform"
 			transition:slide|local
 		>

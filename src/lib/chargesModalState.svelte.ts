@@ -5,22 +5,22 @@ interface State {
     selectedCharge: Tables<'charges'> | null;
 }
 
-let state: State = $state({ isModalOpen: false, selectedCharge: null });
+// Export the state directly
+export let chargeState: State = $state({
+    isModalOpen: false,
+    selectedCharge: null
+});
 
-export function getState() {
-    function updateState(newState: State) {
-        state = newState;
-    }
+// Export helper functions
+export function updateState(newState: State) {
+    chargeState.isModalOpen = newState.isModalOpen;
+    chargeState.selectedCharge = newState.selectedCharge;
+}
 
-    function toggleModal() {
-        updateState({ ...state, isModalOpen: !state.isModalOpen });
-    }
+export function toggleModal() {
+    chargeState.isModalOpen = !chargeState.isModalOpen;
+}
 
-    return {
-        get state() {
-            return state;
-        },
-        updateState,
-        toggleModal
-    }
+export function setSelectedCharge(charge: Tables<'charges'> | null) {
+    chargeState.selectedCharge = charge;
 }
