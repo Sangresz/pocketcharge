@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { Wallet, Home, Plus, Users } from 'lucide-svelte';
-	import { getState } from '$lib/chargesModalState.svelte';
+	import { updateState } from '$lib/chargesModalState.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-
-	const manageState = getState();
 </script>
 
 <div class="absolute bottom-0 flex space-x-2">
@@ -22,7 +20,7 @@
 		<Home class="h-8 w-8" />
 	</a>
 	<Button
-		onclick={() => manageState.toggleModal()}
+		onclick={() => updateState({ isModalOpen: true, selectedCharge: null })}
 		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
 	>
 		<span class="text-sm">New</span>
