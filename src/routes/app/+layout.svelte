@@ -7,7 +7,7 @@
 
 	let { data, children } = $props();
 
-	const { wallets } = $derived(data);
+	const { wallets, groups } = $derived(data);
 </script>
 
 <div class="mx-auto flex w-full flex-col space-y-4 sm:space-y-6 sm:px-4 lg:px-64 lg:pt-4">
@@ -28,7 +28,7 @@
 			<ManagePersonalChargeForm selectedCharge={chargeState.selectedCharge} {wallets} />
 		</Tabs.Content>
 		<Tabs.Content value="group">
-			<ManageGroupChargeForm selectedCharge={chargeState.selectedCharge} />
+			<ManageGroupChargeForm selectedCharge={chargeState.selectedCharge} {groups} />
 		</Tabs.Content>
 	</Tabs.Root>
 </Modal>

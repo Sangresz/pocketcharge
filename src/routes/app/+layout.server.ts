@@ -1,21 +1,27 @@
-/**
- * This file is necessary to ensure protection of all routes in the `private`
- * directory. It makes the routes in this directory _dynamic_ routes, which
- * send a server request, and thus trigger `hooks.server.ts`.
- **/
-
 import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ locals: { supabase } }) => {
-    const { data: wallets, error } = await supabase.from('wallets').select('*').order('created_at');
+    const { data: wallets, error: walletsError } = await supabase.from('wallets').select('*').order('created_at');
 
-    if (error) {
-        console.log(error);
+    if (walletsError) {
+        console.error(walletsError);
         return {
-            wallets: []
+            wallets: [],
+            groups: []
+        }
+    }
+
+    const { data: groups, error: groupsError } = await supabase.from('groups').select('id, name, member_groups(id, name)').order('created_at');
+
+    if (groupsError) {
+        console.error(groupsError);
+        return {
+            wallets: wallets,
+            groups: []
         }
     }
 
     return {
-        wallets: wallets ?? []
+        wallets: wallets,
+        groups: groups
     }
 }

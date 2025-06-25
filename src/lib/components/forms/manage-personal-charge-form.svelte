@@ -51,9 +51,9 @@
 			checked={selectedCharge ? selectedCharge.is_expense : true}
 			class="h-5 w-5 self-start"
 		/>
-		<Label for="is_expanse">Is expense</Label>
+		<Label for="is_expense">Is expense</Label>
 	</div>
-	<div class="space-y-2">
+	<div class="flex flex-col space-y-2">
 		<label for="wallet" class="text-sm font-medium">From wallet</label>
 		<div class="flex items-center space-x-2">
 			{#if selectedWallet}
