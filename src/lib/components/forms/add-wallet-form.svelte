@@ -3,8 +3,8 @@
 	import * as Icons from '$lib/assets/icons';
 
 	const CURRENCIES = [
-		{ value: '$', label: 'USD - US Dollar'},
-		{ value: '£', label: 'GBP - British Pound'},
+		{ value: '$', label: 'USD - US Dollar' },
+		{ value: '£', label: 'GBP - British Pound' },
 		{ value: '€', label: 'EUR - Euro' }
 	];
 
@@ -24,17 +24,15 @@
 
 	const { selectedWallet } = $props();
 
-	let selectedIconValue = $state(selectedWallet?.icon || ICONS[0].value)
+	let selectedIconValue = $state(selectedWallet?.icon || ICONS[0].value);
 	let selectedCurrencyValue = $state(selectedWallet?.currency || CURRENCIES[0].value);
 
-	let action = $derived(selectedWallet ? `?/updateWallet&wallet_id=${selectedWallet.id}` : '/app/createWallet');
+	let action = $derived(
+		selectedWallet ? `?/updateWallet&wallet_id=${selectedWallet.id}` : '?/createWallet'
+	);
 </script>
 
-<form
-	method="POST"
-	action={action}
-	class="space-y-4"
->
+<form method="POST" {action} class="space-y-4">
 	<div class="space-y-2">
 		<label for="name" class="text-sm font-medium">Wallet Name</label>
 		<input
@@ -43,25 +41,25 @@
 			name="name"
 			value={selectedWallet?.name}
 			required
-			class="w-full px-3 py-2 border border-border rounded-md bg-background"
+			class="border-border bg-background w-full rounded-md border px-3 py-2"
 			placeholder="e.g., Cash, Bank, Credit Card"
 		/>
 	</div>
 
 	<div class="space-y-2">
 		<label for="icon" class="text-sm font-medium">Icon</label>
-		<div class="flex space-x-2 items-center">
+		<div class="flex items-center space-x-2">
 			<img
 				src={Icons[selectedIconValue as keyof typeof Icons]}
 				alt={selectedIconValue}
-				class="w-6 h-6 sm:w-8 sm:h-8 text-primary"
+				class="text-primary h-6 w-6 sm:h-8 sm:w-8"
 			/>
 			<select
 				bind:value={selectedIconValue}
 				id="icon"
 				name="icon"
 				required
-				class="w-full px-3 py-2 border border-border rounded-md bg-background cursor-pointer"
+				class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
 			>
 				{#each ICONS as icon}
 					<option value={icon.value}>{icon.label}</option>
@@ -76,7 +74,7 @@
 			id="currency"
 			name="currency"
 			required
-			class="w-full px-3 py-2 border border-border rounded-md bg-background cursor-pointer"
+			class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
 			bind:value={selectedCurrencyValue}
 		>
 			{#each CURRENCIES as currency}
@@ -88,7 +86,7 @@
 	<div class="space-y-2">
 		<label for="balance" class="text-sm font-medium">Balance</label>
 		<div class="relative">
-			<span class="absolute left-3 top-2 text-muted-foreground">{selectedCurrencyValue}</span>
+			<span class="text-muted-foreground absolute top-2 left-3">{selectedCurrencyValue}</span>
 			<input
 				type="number"
 				id="balance"
@@ -96,7 +94,7 @@
 				required
 				step="0.01"
 				min="0"
-				class="w-full pl-7 pr-3 py-2 border border-border rounded-md bg-background"
+				class="border-border bg-background w-full rounded-md border py-2 pr-3 pl-7"
 				placeholder="0.00"
 				value={selectedWallet?.balance}
 			/>

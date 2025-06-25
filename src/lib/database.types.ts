@@ -13,7 +13,7 @@ export type Database = {
         Row: {
           amount: number
           created_at: string
-          id: number
+          id: string
           is_expense: boolean
           name: string
           user_id: string
@@ -22,7 +22,7 @@ export type Database = {
         Insert: {
           amount?: number
           created_at?: string
-          id?: number
+          id?: string
           is_expense?: boolean
           name: string
           user_id: string
@@ -31,7 +31,7 @@ export type Database = {
         Update: {
           amount?: number
           created_at?: string
-          id?: number
+          id?: string
           is_expense?: boolean
           name?: string
           user_id?: string
@@ -50,18 +50,68 @@ export type Database = {
       groups: {
         Row: {
           created_at: string
-          id: number
+          id: string
           name: string
         }
         Insert: {
           created_at?: string
-          id?: number
+          id?: string
           name: string
         }
         Update: {
           created_at?: string
-          id?: number
+          id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      member_groups: {
+        Row: {
+          created_at: string
+          group_id: string
+          id: string
+          name: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          group_id: string
+          id?: string
+          name: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          group_id?: string
+          id?: string
+          name?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_groups_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          first_name: string
+          id: string
+          last_name: string
+        }
+        Insert: {
+          first_name: string
+          id: string
+          last_name: string
+        }
+        Update: {
+          first_name?: string
+          id?: string
+          last_name?: string
         }
         Relationships: []
       }
