@@ -110,5 +110,12 @@ export const actions: Actions = {
         }
 
         redirect(303, '/app');
+    },
+    newGroup: async ({ request, locals: { supabase } }) => {
+        const form_data = await request.formData();
+
+        console.log(form_data)
+
+        redirect(303, '/app');;
     }
 }
