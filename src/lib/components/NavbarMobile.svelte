@@ -1,22 +1,36 @@
 <script lang="ts">
-  import { Wallet, Home, Plus, Users } from 'lucide-svelte';
+	import { Wallet, Home, Plus, Users } from 'lucide-svelte';
+	import { updateState } from '$lib/chargesModalState.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
-<div class="flex space-x-2 absolute bottom-0">
-  <a href="/app/wallets" class="border rounded-full p-2 w-16 h-16 border-slate-300 flex flex-col items-center">
-    <span class="text-sm">Wallet</span>
-    <Wallet class="w-8 h-8" />
-  </a>
-  <a href="/app" class="border rounded-full p-2 w-16 h-16 border-slate-300 flex flex-col items-center">
-    <span class="text-sm">Home</span>
-    <Home class="h-8 w-8" />
-  </a>
-  <a href="/app/charges/new" class="border rounded-full p-2 w-16 h-16 border-slate-300 flex flex-col items-center">
-    <span class="text-sm">New</span>
-    <Plus class="h-8 w-8" />
-  </a>
-  <a href="/app/groups" class="border rounded-full p-2 w-16 h-16 border-slate-300 flex flex-col items-center">
-    <span class="text-sm">Groups</span>
-    <Users class="h-8 w-8" />
-  </a>
+<div class="absolute bottom-0 flex space-x-2">
+	<a
+		href="/app/wallets"
+		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
+	>
+		<span class="text-sm">Wallet</span>
+		<Wallet class="h-8 w-8" />
+	</a>
+	<a
+		href="/app"
+		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
+	>
+		<span class="text-sm">Home</span>
+		<Home class="h-8 w-8" />
+	</a>
+	<Button
+		onclick={() => updateState({ isModalOpen: true, selectedCharge: null })}
+		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
+	>
+		<span class="text-sm">New</span>
+		<Plus class="h-8 w-8" />
+	</Button>
+	<a
+		href="/app/groups"
+		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
+	>
+		<span class="text-sm">Groups</span>
+		<Users class="h-8 w-8" />
+	</a>
 </div>

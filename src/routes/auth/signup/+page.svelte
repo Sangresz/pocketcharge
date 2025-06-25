@@ -4,20 +4,24 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 </script>
 
-<div class="flex items-center flex-col mt-12">
-	<form method="POST" class="p-12 w-96 bg-zinc-100 flex flex-col space-y-6">
+<div class="mt-12 flex flex-col items-center">
+	<form method="POST" class="flex w-96 flex-col space-y-6 bg-zinc-100 p-12">
 		<h2 class="text-3xl">Sign Up</h2>
-		<div class="w-full max-w-lg flex flex-col space-y-3">
-			<Label for="inputEmail">Email</Label>
-			<Input id="inputEmail" name="email" type="email" autocomplete="email" />
+		<div class="flex w-full max-w-lg flex-col space-y-3">
+			<Label for="email">Email</Label>
+			<Input name="email" type="email" autocomplete="email" required />
 		</div>
-		<div class="w-full max-w-lg flex flex-col space-y-3">
+		<div class="flex w-full max-w-lg flex-col space-y-3">
+			<Label for="firstName">First Name</Label>
+			<Input name="firstName" type="text" required />
+		</div>
+		<div class="flex w-full max-w-lg flex-col space-y-3">
+			<Label for="lastName">Last Name</Label>
+			<Input name="lastName" type="text" required />
+		</div>
+		<div class="flex w-full max-w-lg flex-col space-y-3">
 			<Label for="inputPassword">Password</Label>
-			<Input id="inputPassword" name="password" type="password" />
-		</div>
-		<div class="w-full max-w-lg flex flex-col space-y-3">
-			<Label for="inputPasswordConfirm">Confirm Password</Label>
-			<Input id="inputPasswordConfirm" name="passwordConfirm" type="password" />
+			<Input id="inputPassword" name="password" type="password" required />
 		</div>
 		<Button type="submit">Sign up</Button>
 	</form>
