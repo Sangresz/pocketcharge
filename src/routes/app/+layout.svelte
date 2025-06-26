@@ -28,7 +28,7 @@
 			<ManagePersonalChargeForm selectedCharge={chargeState.selectedCharge} {wallets} />
 		</Tabs.Content>
 		<Tabs.Content value="group">
-			<ManageGroupChargeForm selectedCharge={chargeState.selectedCharge} {groups} />
+			<ManageGroupChargeForm selectedCharge={chargeState.selectedCharge} {groups} {wallets} />
 		</Tabs.Content>
 	</Tabs.Root>
 </Modal>

@@ -54,7 +54,7 @@
 		<Label for="is_expense">Is expense</Label>
 	</div>
 	<div class="flex flex-col space-y-2">
-		<label for="wallet" class="text-sm font-medium">From wallet</label>
+		<label for="wallet_id" class="text-sm font-medium">From wallet</label>
 		<div class="flex items-center space-x-2">
 			{#if selectedWallet}
 				<img
@@ -64,7 +64,7 @@
 				/>
 			{/if}
 			<select
-				name="wallet"
+				name="wallet_id"
 				bind:value={selectedWalletId}
 				class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
 			>

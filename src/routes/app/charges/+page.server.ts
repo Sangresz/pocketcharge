@@ -7,7 +7,7 @@ export const actions: Actions = {
         const name = form_data.get('name') as string;
         const amount = form_data.get('amount') as string;
         const is_expense = form_data.get('is_expense') as string;
-        const wallet_id = form_data.get('wallet');
+        const wallet_id = form_data.get('wallet_id') as string;
 
         const { error } = await supabase.from('charges').insert({
             name,
@@ -20,6 +20,10 @@ export const actions: Actions = {
         if (error) {
             console.error(error)
             return fail(500, { error: 'Failed to create charge' });
+        }
+
+        if (wallet_id == "") {
+            redirect(303, '/app');
         }
 
         const { data: wallet, error: queryingWalletError } = await supabase.from('wallets').select('*').eq('id', wallet_id).single();
@@ -48,7 +52,7 @@ export const actions: Actions = {
         const name = form_data.get('name') as string;
         const amount = parseFloat(form_data.get('amount') as string);
         const is_expense = form_data.get('is_expense') as string;
-        const wallet_id = form_data.get('wallet');
+        const wallet_id = form_data.get('wallet_id') as string;
 
         const { data: charge, error: queryingChargeError } = await supabase.from('charges').select('*').eq('id', charge_id).single();
 
@@ -111,11 +115,62 @@ export const actions: Actions = {
 
         redirect(303, '/app');
     },
-    newGroup: async ({ request, locals: { supabase } }) => {
+    newGroup: async ({ request, locals: { user, supabase } }) => {
         const form_data = await request.formData();
 
-        console.log(form_data)
+        const name = form_data.get('name') as string;
+        const amount = form_data.get('amount') as string;
+        const wallet_id = form_data.get('wallet_id') as string;
+        const group_id = form_data.get('group_id') as string;
+        const members = form_data.getAll('members') as string[];
 
-        redirect(303, '/app');;
+        const { data: charge, error } = await supabase.from('charges').insert({
+            name,
+            amount: parseFloat(amount),
+            is_expense: true,
+            wallet_id: wallet_id == "" ? null : wallet_id,
+            group_id: group_id,
+            user_id: user?.id
+        }).select().single()
+
+        if (error) {
+            console.error(error)
+            return fail(500, { error: 'Failed to create charge' });
+        }
+
+        if (wallet_id == "") {
+            redirect(303, '/app');
+        }
+
+        const { data: wallet, error: queryingWalletError } = await supabase.from('wallets').select('*').eq('id', wallet_id).single();
+
+        if (queryingWalletError) {
+            console.error(queryingWalletError)
+            return fail(500, { error: 'Failed to get wallet' });
+        }
+
+        const { error: updateWalletError } = await supabase.from('wallets').update({
+            balance: wallet.balance - parseFloat(amount)
+        }).eq('id', wallet_id)
+
+        if (updateWalletError) {
+            console.error(updateWalletError)
+            return fail(500, { error: 'Failed to update wallet' });
+        }
+
+        for (const member of members) {
+            const { error } = await supabase.from('member_charges').insert({
+                member_group_id: member,
+                charge_id: charge.id,
+                amount: parseFloat(amount) / (members.length + 1)
+            })
+
+            if (error) {
+                console.error(error)
+                return fail(500, { error: 'Failed to create member charge' });
+            }
+        }
+
+        redirect(303, '/app');
     }
 }
