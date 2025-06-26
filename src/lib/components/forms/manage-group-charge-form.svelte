@@ -3,8 +3,16 @@
 	import { Input } from '$lib/components/ui/input';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import type { Tables } from '$lib/database.types';
+	import * as Icons from '$lib/assets/icons';
 
-	const { selectedCharge, groups } = $props();
+	const { selectedCharge, groups, wallets } = $props();
+
+	let selectedWalletId: string | null = $derived(
+		selectedCharge != null ? selectedCharge.wallet_id : null
+	);
+	const selectedWallet = $derived(
+		wallets.find((wallet: Tables<'wallets'>) => wallet.id === selectedWalletId)
+	);
 
 	let selectedGroupId: string | null = $derived(
 		selectedCharge != null ? selectedCharge.group_id : groups[0]?.id
@@ -18,7 +26,7 @@
 	method="POST"
 	action={selectedCharge == null
 		? '/app/charges?/newGroup'
-		: `/app/charges?/update&charge_id=${selectedCharge.id}`}
+		: `/app/charges?/updateGroup&charge_id=${selectedCharge.id}`}
 	class="flex flex-col space-y-4"
 >
 	<div class="flex flex-col space-y-2">
@@ -43,20 +51,34 @@
 			placeholder="0.01"
 		/>
 	</div>
-	<div class="flex items-center space-x-2">
-		<input
-			type="checkbox"
-			name="is_expense"
-			checked={selectedCharge ? selectedCharge.is_expense : true}
-			class="h-5 w-5 self-start"
-		/>
-		<Label for="is_expense">Is expense</Label>
+	<div class="flex flex-col space-y-2">
+		<label for="wallet_id" class="text-sm font-medium">From wallet</label>
+		<div class="flex items-center space-x-2">
+			{#if selectedWallet}
+				<img
+					src={Icons[selectedWallet.icon as keyof typeof Icons]}
+					alt={selectedWallet.icon}
+					class="text-primary h-6 w-6 sm:h-8 sm:w-8"
+				/>
+			{/if}
+			<select
+				name="wallet_id"
+				bind:value={selectedWalletId}
+				class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
+			>
+				{#each [{ name: 'No wallet', id: null }, ...wallets] as wallet}
+					<option value={wallet.id}>{wallet.name}</option>
+				{/each}
+			</select>
+		</div>
 	</div>
 	<div class="flex flex-col space-y-2">
-		<label for="group" class="text-sm font-medium">Group</label>
+		<label for="group_id" class="text-sm font-medium">Group</label>
 		<div class="flex items-center space-x-2">
 			<select
-				name="group"
+				name="group_id"
+				bind:value={selectedGroupId}
+				required
 				class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
 			>
 				{#each groups as group}
@@ -71,12 +93,12 @@
 			<div class="flex items-center space-x-2">
 				<input
 					type="checkbox"
-					name="member"
+					name="members"
 					value={member.id}
 					checked={true}
 					class="h-4 w-4 self-start"
 				/>
-				<Label for="member">{member.name}</Label>
+				<Label for="members">{member.name}</Label>
 			</div>
 		{/each}
 	</div>
