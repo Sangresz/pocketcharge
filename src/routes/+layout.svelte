@@ -17,6 +17,31 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+
+	async function detectSWUpdate() {
+		const registration = await navigator.serviceWorker.getRegistration();
+
+		if (registration) {
+			registration.addEventListener('updatefound', () => {
+				const installingWorker = registration.installing;
+
+				if (installingWorker) {
+					installingWorker.addEventListener('statechange', () => {
+						if (installingWorker.state === 'installed') {
+							if (confirm('A new version of the app is available. Reload to update?')) {
+								installingWorker.postMessage({ type: 'SKIP_WAITING' });
+								window.location.reload();
+							}
+						}
+					});
+				}
+			});
+		}
+	}
+
+	onMount(async () => {
+		detectSWUpdate();
+	});
 </script>
 
 <div class="relative mx-4 mt-4 flex flex-col items-center lg:mx-16">

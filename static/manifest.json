@@ -1,0 +1,26 @@
+{
+    "name": "PocketCharge",
+    "short_name": "PocketCharge",
+    "start_url": "/app",
+    "display": "standalone",
+    "background_color": "#17191c",
+    "theme_color": "#17191c",
+    "description": "Manage your expenses",
+    "icons": [
+        {
+            "src": "pwa-64x64.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "pwa-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "pwa-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
