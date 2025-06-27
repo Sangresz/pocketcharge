@@ -16,15 +16,10 @@
 		isAddWalletModalOpen = false;
 	}
 
-	function formatCurrency(amount: number, currency = '$') {
-		const currencyMap = {
-			$: 'USD',
-			'£': 'GBP',
-			'€': 'EUR'
-		};
+	function formatCurrency(amount: number) {
 		return new Intl.NumberFormat('en-US', {
 			style: 'currency',
-			currency: currencyMap[currency as keyof typeof currencyMap] || 'USD'
+			currency: 'EUR'
 		}).format(amount);
 	}
 </script>
@@ -45,7 +40,7 @@
 				{wallet.name}
 			</div>
 			<div class="text-base font-bold sm:text-xl">
-				{formatCurrency(wallet.balance, wallet.currency)}
+				{formatCurrency(wallet.balance)}
 			</div>
 		</div>
 	</button>
