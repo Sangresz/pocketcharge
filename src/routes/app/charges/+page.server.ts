@@ -138,24 +138,22 @@ export const actions: Actions = {
             return fail(500, { error: 'Failed to create charge' });
         }
 
-        if (wallet_id == "") {
-            redirect(303, '/app');
-        }
+        if (wallet_id != "") {
+            const { data: wallet, error: queryingWalletError } = await supabase.from('wallets').select('*').eq('id', wallet_id).single();
 
-        const { data: wallet, error: queryingWalletError } = await supabase.from('wallets').select('*').eq('id', wallet_id).single();
+            if (queryingWalletError) {
+                console.error(queryingWalletError)
+                return fail(500, { error: 'Failed to get wallet' });
+            }
 
-        if (queryingWalletError) {
-            console.error(queryingWalletError)
-            return fail(500, { error: 'Failed to get wallet' });
-        }
+            const { error: updateWalletError } = await supabase.from('wallets').update({
+                balance: wallet.balance - parseFloat(amount)
+            }).eq('id', wallet_id)
 
-        const { error: updateWalletError } = await supabase.from('wallets').update({
-            balance: wallet.balance - parseFloat(amount)
-        }).eq('id', wallet_id)
-
-        if (updateWalletError) {
-            console.error(updateWalletError)
-            return fail(500, { error: 'Failed to update wallet' });
+            if (updateWalletError) {
+                console.error(updateWalletError)
+                return fail(500, { error: 'Failed to update wallet' });
+            }
         }
 
         for (const member of members) {

@@ -8,9 +8,9 @@
 
 	const { data } = $props();
 
-	const { group } = $derived<{
-		group: Tables<'groups'> & { member_groups: Tables<'member_groups'>[] };
-	}>(data);
+	const { user } = $derived(data);
+
+	const { group } = $derived(data);
 
 	let isModalOpen = $state(false);
 	let isInviteIconShown = $state(false);
@@ -39,6 +39,30 @@
 			isInviteIconShown = false;
 		}, 1000);
 	}
+
+	function formatDate(timestamp: string) {
+		const date = new Date(timestamp);
+
+		const options: Intl.DateTimeFormatOptions = {
+			day: 'numeric',
+			month: 'numeric',
+			year: 'numeric'
+		};
+
+		return date.toLocaleDateString('en-UK', options);
+	}
+
+	function formatCurrency(amount: number, currency = '€') {
+		const currencyMap = {
+			$: 'USD',
+			'£': 'GBP',
+			'€': 'EUR'
+		};
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: currencyMap[currency as keyof typeof currencyMap] || 'EUR'
+		}).format(amount);
+	}
 </script>
 
 <div class="flex flex-col space-y-4">
@@ -55,12 +79,43 @@
 		</div>
 	</div>
 	<div class="flex flex-col">
-		<h1 class="text-lg font-bold">Members</h1>
+		<h1 class="text-xl font-bold">Members</h1>
 		<ul class="list-inside list-disc">
 			{#each group.member_groups as member}
-				<li>{member.name}</li>
+				<li class={`${member.user_id == user?.id ? 'italic underline' : ''} text-lg`}>
+					{member.name}
+					{#if member.user_id == user?.id}
+						<span class="text-xs">(you)</span>
+					{:else if member.balance == 0}
+						<span>You are event</span>
+					{:else if member.balance < 0}
+						<span>You are in debit of {formatCurrency(member.balance * -1)}</span>
+					{:else}
+						<span>You are in credit of {formatCurrency(member.balance)}</span>
+					{/if}
+				</li>
 			{/each}
 		</ul>
+		<div class="my-8 flex w-full flex-col space-y-2 sm:space-y-3">
+			{#each group.charges as charge}
+				<button class="group cursor-pointer overflow-hidden rounded-lg">
+					<div
+						class={`bg-red-500/10 px-3 py-3 transition-colors duration-200 hover:bg-red-500/20 sm:px-6 sm:py-4`}
+					>
+						<div class="flex items-center justify-between">
+							<div class="flex items-center space-x-2 sm:space-x-3">
+								<span class="text-sm font-medium sm:text-base">{charge.name}</span>
+								<span class="text-sm font-medium sm:text-base">{formatDate(charge.created_at)}</span
+								>
+							</div>
+							<div class={`text-base font-semibold text-red-500 sm:text-xl`}>
+								{formatCurrency(charge.amount)}
+							</div>
+						</div>
+					</div>
+				</button>
+			{/each}
+		</div>
 	</div>
 </div>
 

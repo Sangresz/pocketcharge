@@ -22,13 +22,7 @@
 	);
 </script>
 
-<form
-	method="POST"
-	action={selectedCharge == null
-		? '/app/charges?/newGroup'
-		: `/app/charges?/updateGroup&charge_id=${selectedCharge.id}`}
-	class="flex flex-col space-y-4"
->
+<form method="POST" action={'/app/charges?/newGroup'} class="flex flex-col space-y-4">
 	<div class="flex flex-col space-y-2">
 		<Label for="name">Name</Label>
 		<Input
@@ -110,7 +104,7 @@
 			</div>
 		{/each}
 	</div>
-	<Button variant="outline" type="submit" class="self-end"
-		>{selectedCharge == null ? 'Create' : 'Update'}</Button
-	>
+	{#if selectedCharge == null}
+		<Button variant="outline" type="submit" class="self-end">Create</Button>
+	{/if}
 </form>
