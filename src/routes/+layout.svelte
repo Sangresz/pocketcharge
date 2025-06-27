@@ -19,6 +19,8 @@
 	});
 
 	async function detectSWUpdate() {
+		if (!navigator.serviceWorker) return;
+
 		const registration = await navigator.serviceWorker.getRegistration();
 
 		if (registration) {
