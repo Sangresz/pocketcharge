@@ -21,7 +21,7 @@
 		return date.toLocaleDateString('en-UK', options);
 	}
 
-	function formatCurrency(amount: number, currency = '$') {
+	function formatCurrency(amount: number, currency = '€') {
 		const currencyMap = {
 			$: 'USD',
 			'£': 'GBP',
@@ -29,7 +29,7 @@
 		};
 		return new Intl.NumberFormat('en-US', {
 			style: 'currency',
-			currency: currencyMap[currency as keyof typeof currencyMap] || 'USD'
+			currency: currencyMap[currency as keyof typeof currencyMap] || 'EUR'
 		}).format(amount);
 	}
 
@@ -48,7 +48,7 @@
 		</Tabs.List>
 		<Tabs.Content value="year">
 			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">Last year</h2>
-			<div class="relative w-full">
+			<div class="relative max-h-64 w-full">
 				<canvas id="last_year_charges_canvas"></canvas>
 			</div>
 		</Tabs.Content>
@@ -56,7 +56,7 @@
 			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
 				{new Date().toLocaleDateString('en-UK', { month: 'long' })}
 			</h2>
-			<div class="relative w-full">
+			<div class="relative max-h-64 w-full">
 				<canvas id="last_month_charges_canvas"></canvas>
 			</div>
 		</Tabs.Content>
