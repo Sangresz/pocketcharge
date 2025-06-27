@@ -14,7 +14,6 @@ export const actions: Actions = {
 		const name = form_data.get('name') as string;
 		const balance = form_data.get('balance') as string;
 		const icon = form_data.get('icon') as string;
-		const currency = form_data.get('currency') as string;
 
 		if (!name || !balance) {
 			return fail(400, { error: 'Name and balance are required' });
@@ -23,7 +22,7 @@ export const actions: Actions = {
 		const { error } = await supabase.from('wallets').insert({
 			name,
 			icon,
-			currency,
+			currency: "€",
 			balance: parseFloat(balance),
 			user_id: user?.id
 		});
@@ -41,12 +40,10 @@ export const actions: Actions = {
 		const name = form_data.get('name') as string;
 		const balance = form_data.get('balance') as string;
 		const icon = form_data.get('icon') as string;
-		const currency = form_data.get('currency') as string;
 
 		const { error } = await supabase.from('wallets').update({
 			name,
 			icon,
-			currency,
 			balance: parseFloat(balance ?? '0'),
 		}).eq('id', walletId);
 

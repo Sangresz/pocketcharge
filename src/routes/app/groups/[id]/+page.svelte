@@ -52,15 +52,10 @@
 		return date.toLocaleDateString('en-UK', options);
 	}
 
-	function formatCurrency(amount: number, currency = '€') {
-		const currencyMap = {
-			$: 'USD',
-			'£': 'GBP',
-			'€': 'EUR'
-		};
+	function formatCurrency(amount: number) {
 		return new Intl.NumberFormat('en-US', {
 			style: 'currency',
-			currency: currencyMap[currency as keyof typeof currencyMap] || 'EUR'
+			currency: 'EUR'
 		}).format(amount);
 	}
 </script>

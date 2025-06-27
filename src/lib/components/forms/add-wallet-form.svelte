@@ -2,12 +2,6 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Icons from '$lib/assets/icons';
 
-	const CURRENCIES = [
-		{ value: '$', label: 'USD - US Dollar' },
-		{ value: '£', label: 'GBP - British Pound' },
-		{ value: '€', label: 'EUR - Euro' }
-	];
-
 	const ICONS = [
 		{ value: 'icon_wallet', label: 'Wallet' },
 		{ value: 'icon_bank', label: 'Bank' },
@@ -24,7 +18,6 @@
 	const { selectedWallet } = $props();
 
 	let selectedIconValue = $state(selectedWallet?.icon || ICONS[0].value);
-	let selectedCurrencyValue = $state(selectedWallet?.currency || CURRENCIES[0].value);
 
 	let action = $derived(
 		selectedWallet ? `?/updateWallet&wallet_id=${selectedWallet.id}` : '?/createWallet'
@@ -68,24 +61,9 @@
 	</div>
 
 	<div class="space-y-2">
-		<label for="currency" class="text-sm font-medium">Currency</label>
-		<select
-			id="currency"
-			name="currency"
-			required
-			class="border-border bg-background w-full cursor-pointer rounded-md border px-3 py-2"
-			bind:value={selectedCurrencyValue}
-		>
-			{#each CURRENCIES as currency}
-				<option value={currency.value}>{currency.label}</option>
-			{/each}
-		</select>
-	</div>
-
-	<div class="space-y-2">
 		<label for="balance" class="text-sm font-medium">Balance</label>
 		<div class="relative">
-			<span class="text-muted-foreground absolute top-2 left-3">{selectedCurrencyValue}</span>
+			<span class="text-muted-foreground absolute top-2 left-3">€</span>
 			<input
 				type="number"
 				id="balance"
