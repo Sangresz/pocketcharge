@@ -52,7 +52,7 @@ export const createCharts = (charges: Tables<'charges'>[]) => {
                     backgroundColor: '#ffa2a2',
                 },
                 {
-                    label: 'Gains',
+                    label: 'Incomes',
                     data: yearData.map((row) =>
                         row.values.reduce((acc, charge) => {
                             if (!charge.is_expense) {
@@ -102,7 +102,7 @@ export const createCharts = (charges: Tables<'charges'>[]) => {
                     backgroundColor: '#ffa2a2',
                 },
                 {
-                    label: 'Gains',
+                    label: 'Incomes',
                     data: monthData.map((row) =>
                         row.values.reduce((acc, charge) => {
                             if (!charge.is_expense) {
