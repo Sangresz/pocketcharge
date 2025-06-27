@@ -2,7 +2,7 @@ import type { Tables } from "./database.types";
 
 interface State {
     isModalOpen: boolean;
-    selectedCharge: Tables<'charges'> | null;
+    selectedCharge: (Tables<'charges'> & { groups: Tables<'groups'> }) | null;
 }
 
 // Export the state directly
@@ -21,6 +21,6 @@ export function toggleModal() {
     chargeState.isModalOpen = !chargeState.isModalOpen;
 }
 
-export function setSelectedCharge(charge: Tables<'charges'> | null) {
+export function setSelectedCharge(charge: (Tables<'charges'> & { groups: Tables<'groups'> }) | null) {
     chargeState.selectedCharge = charge;
 }

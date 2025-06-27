@@ -3,7 +3,7 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 	const [charges, wallets] = await Promise.all([
-		supabase.from('charges').select('*').order('created_at', { ascending: false }),
+		supabase.from('charges').select('*, groups(id, name), member_charges(member_groups(id, name))').order('created_at', { ascending: false }),
 		supabase.from('wallets').select('*').order('created_at').limit(50)
 	]);
 

@@ -8,6 +8,8 @@
 	let { data, children } = $props();
 
 	const { wallets, groups } = $derived(data);
+
+	let activeTab = $derived(chargeState.selectedCharge?.groups ? 'group' : 'personal');
 </script>
 
 <div class="mx-auto flex w-full flex-col space-y-4 sm:space-y-6 sm:px-4 lg:px-64 lg:pt-4">
@@ -19,11 +21,13 @@
 	isOpen={chargeState.isModalOpen}
 	onClose={toggleModal}
 >
-	<Tabs.Root value="personal">
-		<Tabs.List>
-			<Tabs.Trigger value="personal">Personal</Tabs.Trigger>
-			<Tabs.Trigger value="group">Group</Tabs.Trigger>
-		</Tabs.List>
+	<Tabs.Root value={activeTab}>
+		{#if chargeState.selectedCharge == null}
+			<Tabs.List>
+				<Tabs.Trigger value="personal">Personal</Tabs.Trigger>
+				<Tabs.Trigger value="group">Group</Tabs.Trigger>
+			</Tabs.List>
+		{/if}
 		<Tabs.Content value="personal">
 			<ManagePersonalChargeForm selectedCharge={chargeState.selectedCharge} {wallets} />
 		</Tabs.Content>
