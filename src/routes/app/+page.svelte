@@ -132,6 +132,9 @@
 						{/if}
 						<span class="text-sm font-medium sm:text-base">{charge.name}</span>
 						<span class="text-sm font-medium sm:text-base">{formatDate(charge.created_at)}</span>
+						{#if charge.groups}
+							<span class="font-bold italic">{charge.groups.name}</span>
+						{/if}
 					</div>
 					<div
 						class={`text-base font-semibold sm:text-xl ${charge.is_expense ? 'text-red-500' : 'text-green-500'}`}

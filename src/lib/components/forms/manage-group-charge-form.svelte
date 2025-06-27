@@ -95,7 +95,15 @@
 					type="checkbox"
 					name="members"
 					value={member.id}
-					checked={true}
+					checked={selectedCharge
+						? selectedCharge.member_charges.find(
+								(
+									member_charge: Tables<'member_charges'> & {
+										member_groups: Tables<'member_groups'>;
+									}
+								) => member_charge.member_groups.id == member.id
+							)
+						: true}
 					class="h-4 w-4 self-start"
 				/>
 				<Label for="members">{member.name}</Label>

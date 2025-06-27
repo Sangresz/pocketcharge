@@ -13,31 +13,41 @@ export type Database = {
         Row: {
           amount: number
           created_at: string
+          group_id: string | null
           id: string
           is_expense: boolean
           name: string
-          user_id: string
+          user_id: string | null
           wallet_id: string | null
         }
         Insert: {
           amount?: number
           created_at?: string
+          group_id?: string | null
           id?: string
           is_expense?: boolean
           name: string
-          user_id: string
+          user_id?: string | null
           wallet_id?: string | null
         }
         Update: {
           amount?: number
           created_at?: string
+          group_id?: string | null
           id?: string
           is_expense?: boolean
           name?: string
-          user_id?: string
+          user_id?: string | null
           wallet_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "charges_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "charges_wallet_id_fkey"
             columns: ["wallet_id"]
@@ -64,6 +74,45 @@ export type Database = {
           name?: string
         }
         Relationships: []
+      }
+      member_charges: {
+        Row: {
+          amount: number
+          charge_id: string | null
+          created_at: string
+          id: number
+          member_group_id: string | null
+        }
+        Insert: {
+          amount: number
+          charge_id?: string | null
+          created_at?: string
+          id?: number
+          member_group_id?: string | null
+        }
+        Update: {
+          amount?: number
+          charge_id?: string | null
+          created_at?: string
+          id?: number
+          member_group_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_charges_charge_id_fkey"
+            columns: ["charge_id"]
+            isOneToOne: false
+            referencedRelation: "charges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_charges_member_group_id_fkey"
+            columns: ["member_group_id"]
+            isOneToOne: false
+            referencedRelation: "member_groups"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       member_groups: {
         Row: {
