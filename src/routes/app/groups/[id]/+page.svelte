@@ -124,17 +124,22 @@
 		<div class="flex w-full flex-col space-y-2">
 			{#each guests as _, index}
 				<div class="flex items-center">
-					<Button type="button" onclick={() => removeGuest(index)}>
+					<button class="cursor-pointer" type="button" onclick={() => removeGuest(index)}>
 						<X color="red" class="h-8 w-8" />
-					</Button>
-					<div>
+					</button>
+					<div class="w-full">
 						<Label for="name">Name</Label>
 						<Input name="name" bind:value={guests[index]} type="text" required />
 					</div>
 				</div>
 			{/each}
 
-			<Button type="button" onclick={addGuest} class="self-start">
+			<Button
+				variant="outline"
+				size="lg"
+				class="hover:bg-primary hover:text-primary-foreground col-span-2 cursor-pointer transition-all duration-200"
+				onclick={addGuest}
+			>
 				<Plus />
 				New member
 			</Button>
