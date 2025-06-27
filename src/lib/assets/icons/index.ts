@@ -1,4 +1,4 @@
-export { default as icon_wallet }  from './icon_wallet.svg';
+export { default as icon_wallet } from './icon_wallet.svg';
 export { default as icon_piggy } from './icon_piggy.svg';
 export { default as icon_bank } from './icon_bank.svg';
 export { default as icon_credit_card } from './icon_credit_card.svg';
@@ -8,4 +8,3 @@ export { default as icon_safe } from './icon_safe.svg';
 export { default as icon_investment } from './icon_investment.svg';
 export { default as icon_contactless_payment } from './icon_contactless_payment.svg';
 export { default as icon_visa } from './icon_visa.svg';
-export { default as icon_gift_box } from './icon_gift_box.svg';

@@ -87,7 +87,7 @@
 					{#if member.user_id == user?.id}
 						<span class="text-xs">(you)</span>
 					{:else if member.balance == 0}
-						<span>You are event</span>
+						<span>You are even</span>
 					{:else if member.balance < 0}
 						<span>You are in debit of {formatCurrency(member.balance * -1)}</span>
 					{:else}
