@@ -137,8 +137,8 @@
 				<div class="flex items-center">
 					<button class="cursor-pointer" type="button" onclick={() => removeMember(index)}>
 						<X color="red" class="h-8 w-8" />
-					</Button>
-					<div>
+					</button>
+					<div class="w-full">
 						<Label for="name">Name</Label>
 						<Input name="name" bind:value={members[index]} type="text" required />
 					</div>
