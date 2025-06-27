@@ -3,9 +3,13 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 	const [charges, wallets] = await Promise.all([
-		supabase.from('charges').select('*').order('created_at', { ascending: false }).limit(10),
+		supabase.from('charges').select('*').order('created_at', { ascending: false }),
 		supabase.from('wallets').select('*').order('created_at').limit(50)
 	]);
+
+	if (charges.error || wallets.error) {
+		console.error(charges.error, wallets.error);
+	}
 
 	return {
 		charges: charges.data ?? [],
