@@ -17,7 +17,6 @@
 		{ value: 'icon_investment', label: 'Investment' },
 		{ value: 'icon_bitcoin', label: 'Bitcoin' },
 		{ value: 'icon_safe', label: 'Safe' },
-		{ value: 'icon_gift_box', label: 'Gift' },
 		{ value: 'icon_contactless_payment', label: 'Contactless' },
 		{ value: 'icon_visa', label: 'Visa' }
 	];
