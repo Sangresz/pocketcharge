@@ -7,6 +7,9 @@
 	import * as Icons from '$lib/assets/icons';
 	import type { Tables } from '$lib/database.types';
 	import { updateState } from '$lib/chargesModalState.svelte';
+	import { onMount } from 'svelte';
+	import { createCharts } from '$lib/createCharts.js';
+	import * as Tabs from '$lib/components/ui/tabs/index.js';
 
 	let { data } = $props();
 	let { charges, wallets } = $derived(data);
@@ -16,6 +19,18 @@
 
 	function closeAddWalletModal() {
 		isAddWalletModalOpen = false;
+	}
+
+	function formatDate(timestamp: string) {
+		const date = new Date(timestamp);
+
+		const options: Intl.DateTimeFormatOptions = {
+			day: 'numeric',
+			month: 'numeric',
+			year: 'numeric'
+		};
+
+		return date.toLocaleDateString('en-UK', options);
 	}
 
 	function formatCurrency(amount: number, currency = '$') {
@@ -29,6 +44,10 @@
 			currency: currencyMap[currency as keyof typeof currencyMap] || 'USD'
 		}).format(amount);
 	}
+
+	onMount(() => {
+		createCharts(charges);
+	});
 </script>
 
 {#snippet wallet_snippet(wallet: Tables<'wallets'>)}
@@ -73,17 +92,24 @@
 <div
 	class="w-full rounded-lg border border-slate-700 bg-white/5 p-4 shadow-sm backdrop-blur-sm sm:p-6"
 >
-	<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">May 2024 Summary</h2>
-	<div class="flex items-center justify-between sm:flex-row sm:space-y-0">
-		<div class="flex items-center space-x-2 text-green-500">
-			<TrendingUp class="h-4 w-4 sm:h-5 sm:w-5" />
-			<span class="text-base font-medium sm:text-xl">+{formatCurrency(500)}</span>
-		</div>
-		<div class="flex items-center space-x-2 text-red-500">
-			<TrendingDown class="h-4 w-4 sm:h-5 sm:w-5" />
-			<span class="text-base font-medium sm:text-xl">-{formatCurrency(200)}</span>
-		</div>
-	</div>
+	<Tabs.Root value="year">
+		<Tabs.List>
+			<Tabs.Trigger value="year">Last year</Tabs.Trigger>
+			<Tabs.Trigger value="month">Last month</Tabs.Trigger>
+		</Tabs.List>
+		<Tabs.Content value="year">
+			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">2025</h2>
+			<div class="w-full">
+				<canvas id="last_year_charges_canvas"></canvas>
+			</div>
+		</Tabs.Content>
+		<Tabs.Content value="month">
+			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">June</h2>
+			<div class="w-full">
+				<canvas id="last_month_charges_canvas"></canvas>
+			</div>
+		</Tabs.Content>
+	</Tabs.Root>
 </div>
 
 <h2 class="mt-2 text-lg font-semibold sm:mt-4 sm:text-xl">Recent Transactions</h2>
@@ -105,6 +131,7 @@
 							<TrendingUp class="h-4 w-4 text-green-500 sm:h-5 sm:w-5" />
 						{/if}
 						<span class="text-sm font-medium sm:text-base">{charge.name}</span>
+						<span class="text-sm font-medium sm:text-base">{formatDate(charge.created_at)}</span>
 					</div>
 					<div
 						class={`text-base font-semibold sm:text-xl ${charge.is_expense ? 'text-red-500' : 'text-green-500'}`}
