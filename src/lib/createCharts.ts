@@ -68,4 +68,54 @@ export const createCharts = (charges: Tables<'charges'>[]) => {
             ]
         }
     });
+
+    let lastMonthCharges = sortedSharges.filter((charge) => {
+        const date = new Date(charge.created_at);
+        const currentDate = new Date();
+        return date.getMonth() === currentDate.getMonth() && date.getFullYear() === currentDate.getFullYear();
+    })
+
+    const monthData = groupBy(lastMonthCharges, (charge) => {
+        const date = new Date(charge.created_at);
+        return date.getDate().toString();
+    });
+
+    const monthCanva = document.getElementById('last_month_charges_canvas') as ChartItem;
+
+    new Chart(monthCanva, {
+        type: 'bar',
+        data: {
+            labels: monthData.map((row) => row.key),
+            datasets: [
+                {
+                    label: 'Expenses',
+                    data: monthData.map((row) =>
+                        row.values.reduce((acc, charge) => {
+                            if (charge.is_expense) {
+                                return acc + charge.amount;
+                            } else {
+                                return acc;
+                            }
+                        }, 0)
+                    ),
+                    borderColor: '#fb2c36',
+                    backgroundColor: '#ffa2a2',
+                },
+                {
+                    label: 'Gains',
+                    data: monthData.map((row) =>
+                        row.values.reduce((acc, charge) => {
+                            if (!charge.is_expense) {
+                                return acc + charge.amount;
+                            } else {
+                                return acc;
+                            }
+                        }, 0)
+                    ),
+                    borderColor: '#00c951',
+                    backgroundColor: '#7bf1a8',
+                }
+            ]
+        }
+    });
 }

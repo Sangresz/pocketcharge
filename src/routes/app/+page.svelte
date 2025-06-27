@@ -92,20 +92,22 @@
 <div
 	class="w-full rounded-lg border border-slate-700 bg-white/5 p-4 shadow-sm backdrop-blur-sm sm:p-6"
 >
-	<Tabs.Root value="year">
+	<Tabs.Root value="month">
 		<Tabs.List>
 			<Tabs.Trigger value="year">Last year</Tabs.Trigger>
 			<Tabs.Trigger value="month">Last month</Tabs.Trigger>
 		</Tabs.List>
 		<Tabs.Content value="year">
-			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">2025</h2>
-			<div class="w-full">
+			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">Last year</h2>
+			<div class="relative w-full">
 				<canvas id="last_year_charges_canvas"></canvas>
 			</div>
 		</Tabs.Content>
 		<Tabs.Content value="month">
-			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">June</h2>
-			<div class="w-full">
+			<h2 class="mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
+				{new Date().toLocaleDateString('en-UK', { month: 'long' })}
+			</h2>
+			<div class="relative w-full">
 				<canvas id="last_month_charges_canvas"></canvas>
 			</div>
 		</Tabs.Content>
