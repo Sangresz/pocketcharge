@@ -4,7 +4,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
-<div class="absolute bottom-0 flex space-x-2">
+<div class="flex w-full justify-center space-x-2 bg-zinc-50 p-4">
 	<a
 		href="/app/wallets"
 		class="flex h-16 w-16 flex-col items-center rounded-full border border-slate-300 p-2"
